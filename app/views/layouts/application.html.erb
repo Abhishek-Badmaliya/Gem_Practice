@@ -24,12 +24,19 @@
       <% end %>
       <strong>Demo App</strong>
       <% if user_signed_in? %>
-        <%= link_to "Home", root_path, class: "#{'font-weight-bold' if current_page?(root_path)}" %> |
-        <%= link_to "Posts", posts_path, class: "#{'font-weight-bold' if controller_name == "posts"}" %> |
-        <%= link_to current_user.email, edit_user_registration_path, class: "#{'font-weight-bold' if current_page?(edit_user_registration_path)}" %> |
-        <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+        Are you admin? <%= current_user.has_role? :admin %>
+        Your Role is <%= current_user.roles.pluck(:name) %>
+        <br>
+      <hr>
+      <%= link_to "Posts", posts_path %>
+      <br>
+      <%= link_to "Users", users_path %>
+      <hr>
+      <%= link_to current_user.email, edit_user_registration_path %>
+      <%= button_to "Log out", destroy_user_session_path, method: :delete, data: { turbo: "false" } %>
       <% else %>
-        <%= link_to "Sign In", new_user_session_path, class: "#{'font-weight-bold' if current_page?(new_user_session_path)}" %>
+        <%= link_to "Log in", new_user_session_path %>
+        <%= link_to "Register", new_user_registration_path %>
       <% end %>
       <hr>
       <%= yield %>
