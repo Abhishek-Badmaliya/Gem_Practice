@@ -17,22 +17,21 @@
   </head>
 
   <body>
-    <% if notice %>
-      <p class="alert alert-success text-center"><%= notice %></p>
-    <% end %>
-    <% if alert %>
-      <p class="alert alert-danger text-center"><%= alert %></p>
-    <% end %>
-    <% if user_signed_in? %>
-      <%= link_to "Home", root_path %>
-      <br>
-      <%= link_to "Posts", posts_path %>
-      <br>
-      <%= link_to current_user.email, edit_user_registration_path %>
-      <br>
-      <%= link_to "Log out", destroy_user_session_path, method: :delete %>
-      <hr>
-    <% end %>
-    <%= yield %>
+    <div class="container">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, class: name %>
+        <p>
+      <% end %>
+      <strong>Demo App</strong>
+      <% if user_signed_in? %>
+        <%= link_to "Home", root_path, class: "#{'font-weight-bold' if current_page?(root_path)}" %> |
+        <%= link_to "Posts", posts_path, class: "#{'font-weight-bold' if controller_name == "posts"}" %> |
+        <%= link_to current_user.email, edit_user_registration_path, class: "#{'font-weight-bold' if current_page?(edit_user_registration_path)}" %> |
+        <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to "Sign In", new_user_session_path, class: "#{'font-weight-bold' if current_page?(new_user_session_path)}" %>
+      <% end %>
+      <%= yield %>
+    </div>
   </body>
 </html>
