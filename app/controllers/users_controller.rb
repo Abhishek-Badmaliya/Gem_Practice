@@ -1,14 +1,22 @@
 class UsersController < ApplicationController
   def index
     @users = User.all
+    authorize @users
+    # if current_user.has_any_role? :admin, :newuser
+    #   @users = User.all
+    # else
+    #   redirect_to root_path, alert: "You are not authorized for that particular action!"
+    # end
   end
 
   def edit
     @user = User.find(params[:id])
+    authorize @user
   end
 
   def update
     @user = User.find(params[:id])
+    authorize @user
     if @user.update(user_params)
       flash[:errors] = "User Updated Successfully"
       redirect_to users_path
