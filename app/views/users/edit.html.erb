@@ -2,5 +2,5 @@
   <%= form.collection_check_boxes :role_ids, Role.all, :id, :name %>
   <%= @user.errors[:roles] %>
   <br>
-  <%= form.submit class:"btn-secondary" %>
+  <%= form.submit %>
 <% end %>
